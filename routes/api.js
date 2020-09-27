@@ -29,9 +29,6 @@ module.exports = function (app) {
       if(initNum == 'invalid number'){
         return res.status(400).json({"error":"invalid number"})
       }
-      if(initUnit == 'invalid unit'){
-        return res.status(400).json({"error":"invalid unit"})
-      }
       res.json({initNum, initUnit, returnNum, returnUnit, string: toString})
     });
     

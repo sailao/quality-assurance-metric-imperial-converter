@@ -29,8 +29,102 @@ suite('Functional Tests', function() {
           assert.equal(res.body.initUnit, 'L');
           assert.approximately(res.body.returnNum, 2.64172, 0.1);
           assert.equal(res.body.returnUnit, 'gal');
-          done();
         });
+        // Galon to Liture | Liture to Galon
+        chai.request(server)
+        .get('/api/convert')
+        .query({input: '1gal'})
+        .end(function(err, res){
+          assert.equal(res.body.returnNum, 3.78541);
+          assert.equal(res.body.returnUnit, 'l');
+        });
+        chai.request(server)
+        .get('/api/convert')
+        .query({input: '10gal'})
+        .end(function(err, res){
+          assert.equal(res.body.returnNum, 37.8541);
+          assert.equal(res.body.returnUnit, 'l');
+        });
+        chai.request(server)
+        .get('/api/convert')
+        .query({input: '1l'})
+        .end(function(err, res){
+          assert.equal(res.body.returnNum, 0.26417);
+          assert.equal(res.body.returnUnit, 'gal');
+        });
+
+        chai.request(server)
+        .get('/api/convert')
+        .query({input: '10l'})
+        .end(function(err, res){
+          assert.equal(res.body.returnNum, 2.64172);
+          assert.equal(res.body.returnUnit, 'gal');
+        });
+        // Pound to Kilogram | Kilogram to Pound
+        chai.request(server)
+        .get('/api/convert')
+        .query({input: '1lbs'})
+        .end(function(err, res){
+          assert.equal(res.body.returnNum, 0.45359);
+          assert.equal(res.body.returnUnit, 'kg');
+        });
+
+        chai.request(server)
+        .get('/api/convert')
+        .query({input: '10lbs'})
+        .end(function(err, res){
+          assert.equal(res.body.returnNum, 4.53592);
+          assert.equal(res.body.returnUnit, 'kg');
+        });
+        
+        chai.request(server)
+        .get('/api/convert')
+        .query({input: '1kg'})
+        .end(function(err, res){
+          assert.equal(res.body.returnNum, 2.20462);
+          assert.equal(res.body.returnUnit, 'lbs');
+        });
+
+        chai.request(server)
+        .get('/api/convert')
+        .query({input: '10kg'})
+        .end(function(err, res){
+          assert.equal(res.body.returnNum, 22.04624);
+          assert.equal(res.body.returnUnit, 'lbs');
+        });
+        // Miles to kilometer
+        chai.request(server)
+        .get('/api/convert')
+        .query({input: '1mi'})
+        .end(function(err, res){
+          assert.equal(res.body.returnNum, 1.60934);
+          assert.equal(res.body.returnUnit, 'km');
+        });
+
+        chai.request(server)
+        .get('/api/convert')
+        .query({input: '10mi'})
+        .end(function(err, res){
+          assert.equal(res.body.returnNum, 16.0934);
+          assert.equal(res.body.returnUnit, 'km');
+        });
+        
+        chai.request(server)
+        .get('/api/convert')
+        .query({input: '1km'})
+        .end(function(err, res){
+          assert.equal(res.body.returnNum, 0.62137);
+          assert.equal(res.body.returnUnit, 'mi');
+        });
+
+        chai.request(server)
+        .get('/api/convert')
+        .query({input: '10km'})
+        .end(function(err, res){
+          assert.equal(res.body.returnNum, 6.21373);
+          assert.equal(res.body.returnUnit, 'mi');
+        });
+        done()
       });
       
       test('Convert 32g (invalid input unit)', function(done) {
@@ -38,8 +132,8 @@ suite('Functional Tests', function() {
         .get('/api/convert')
         .query({input: '32g'})
         .end(function(err, res){
-          assert.equal(res.status, 400);
-          assert.equal(res.body.error, 'invalid unit');
+          assert.equal(res.status, 200);
+          assert.equal(res.body.initUnit, 'invalid unit');
           done();
         });
       });
@@ -62,8 +156,16 @@ suite('Functional Tests', function() {
         .end(function(err, res){
           assert.equal(res.status, 400);
           assert.equal(res.body.error, 'invalid number and unit');
-          done();
         });
+
+        chai.request(server)
+        .get('/api/convert')
+        .query({input: '1min'})
+        .end(function(err, res){
+          assert.equal(res.status, 200);
+          assert.equal(res.body.initUnit, 'invalid unit');
+        });
+        done();
       });
       
       test('Convert kg (no number)', function(done) {

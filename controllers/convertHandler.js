@@ -101,7 +101,8 @@ function ConvertHandler() {
     const lbsToKg = 0.453592;
     const miToKm = 1.60934;
     var result;
-    initUnit = initUnit.toLowerCase()
+    initNum = parseInt(initNum)
+    initUnit = initUnit.toLowerCase();
     switch (initUnit) {
       case 'gal': 
         result = initNum * galToL; 
@@ -109,11 +110,11 @@ function ConvertHandler() {
       case 'l'  : 
         result =  initNum / galToL; 
         break;
-      case 'kg' : 
-        result =  initNum * lbsToKg; 
-        break;
       case 'lbs': 
         result = initNum * lbsToKg; 
+        break;
+      case 'kg' : 
+        result =  initNum / lbsToKg; 
         break;
       case 'mi' : 
         result = initNum * miToKm; 
@@ -125,6 +126,8 @@ function ConvertHandler() {
         result = 'invalid number'
         break;
     }
+    if(result == 'invalid number') return result;
+    result = parseFloat(result.toFixed(5))
     return result;
   };
   
