@@ -18,33 +18,36 @@ suite('Unit Tests', function(){
     
     test('Whole number input', function(done) {
       var input = '32L';
-      assert.equal(convertHandler.getNum(input),32);
+      assert.equal(convertHandler.getNum(input), 32);
+      assert.equal(convertHandler.getNum('1gal'), 1);
       done();
     });
     
     test('Decimal Input', function(done) {
-      
-      //done();
+      var input = '3.78541 L';
+      assert.equal(convertHandler.getNum(input), 3.78541);
+      done();
     });
     
     test('Fractional Input', function(done) {
-      
-      //done();
+      assert.equal(convertHandler.getNum('9/3yyjj'), 3)
+      done();
     });
     
     test('Fractional Input w/ Decimal', function(done) {
-      
-      //done();
+      assert.approximately(convertHandler.getNum('9.9/3yyjj'), 3.3, 0.01)
+      done();
     });
     
     test('Invalid Input (double fraction)', function(done) {
-      
-      //done();
+      assert.equal(convertHandler.getNum('5//5yyjj'), 'invalid number')
+      assert.equal(convertHandler.getNum('5.5//5yyjj'), 'invalid number')
+      done();
     });
     
     test('No Numerical Input', function(done) {
-      
-      //done();
+      assert.equal(convertHandler.getNum('yyjj'), 'invalid number')
+      done();
     }); 
     
   });
@@ -55,13 +58,14 @@ suite('Unit Tests', function(){
       var input = ['gal','l','mi','km','lbs','kg','GAL','L','MI','KM','LBS','KG'];
       input.forEach(function(ele) {
         //assert
+        assert.equal(convertHandler.getUnit(ele), ele)
       });
       done();
     });
     
     test('Unknown Unit Input', function(done) {
-      
-      //done();
+      assert.equal(convertHandler.getUnit('mm'), 'invalid unit')
+      done();
     });  
     
   });
@@ -71,7 +75,7 @@ suite('Unit Tests', function(){
     test('For Each Valid Unit Inputs', function(done) {
       var input = ['gal','l','mi','km','lbs','kg'];
       var expect = ['l','gal','km','mi','kg','lbs'];
-      input.forEach(function(ele, i) {
+      input.map((ele, i) => {
         assert.equal(convertHandler.getReturnUnit(ele), expect[i]);
       });
       done();
@@ -81,8 +85,13 @@ suite('Unit Tests', function(){
   
   suite('Function convertHandler.spellOutUnit(unit)', function() {
     
-    test('For Each Valid Unit Inputs', function(done) {
-      //see above example for hint
+    test('For Each Valid Unit Inputs',  function(done) {
+      // see above example for hint
+      var input = ['gal','l','mi','km','lbs','kg'];
+      var expect = ['liters','galons','kilometers','miles','kilograms','pounds'];
+      input.map(unit => {
+        assert.notEqual(expect.indexOf(convertHandler.spellOutUnit(unit)), -1)
+      })
       done();
     });
     
@@ -98,28 +107,38 @@ suite('Unit Tests', function(){
     });
     
     test('L to Gal', function(done) {
-      
-      //done();
+      var input = [10, 'l'];
+      var expected = 2.64;
+      assert.approximately(convertHandler.convert(input[0],input[1]),expected,0.01); //0.1 tolerance
+      done();
     });
     
     test('Mi to Km', function(done) {
-      
-      //done();
+      var input = [5, 'mi'];
+      var expected = 8
+      assert.approximately(convertHandler.convert(input[0],input[1]),expected,0.1); //0.1 tolerance
+      done();
     });
     
     test('Km to Mi', function(done) {
-      
-      //done();
+      var input = [8, 'km'];
+      var expected = 5;
+      assert.approximately(convertHandler.convert(input[0],input[1]),expected,0.1); //0.1 tolerance
+      done();
     });
     
     test('Lbs to Kg', function(done) {
-      
-      //done();
+      var input = [100, 'lbs'];
+      var expected = 45.3;
+      assert.approximately(convertHandler.convert(input[0],input[1]),expected,0.1); //0.1 tolerance
+      done();
     });
     
     test('Kg to Lbs', function(done) {
-      
-      //done();
+      var input = [50, 'kg'];
+      var expected = 22.6;
+      assert.approximately(convertHandler.convert(input[0],input[1]),expected, 0.1); //0.1 tolerance
+      done();
     });
     
   });
