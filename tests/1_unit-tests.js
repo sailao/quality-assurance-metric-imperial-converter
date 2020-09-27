@@ -46,7 +46,12 @@ suite('Unit Tests', function(){
     });
     
     test('No Numerical Input', function(done) {
-      assert.equal(convertHandler.getNum('yyjj'), 'invalid number')
+      assert.equal(convertHandler.getNum('gal'), 1)
+      assert.equal(convertHandler.getNum('l'), 1)
+      assert.equal(convertHandler.getNum('mi'), 1)
+      assert.equal(convertHandler.getNum('km'), 1)
+      assert.equal(convertHandler.getNum('lbs'), 1)
+      assert.equal(convertHandler.getNum('kg'), 1)
       done();
     }); 
     

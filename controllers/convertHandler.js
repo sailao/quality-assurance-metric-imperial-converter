@@ -9,12 +9,15 @@
 function ConvertHandler() {
   
   this.getNum = function(input) {
+    if(!input){
+      return 'invalid number'
+    }
     let fraction = input.match(/\//g)
     if(fraction && fraction.length >= 2){
       return 'invalid number'
     }
     var result = input.match(/^\d+\.?\d?(\.|\/)*\d*/g)
-     result = result ? result[0] : "invalid number";
+     result = result ? result[0] : "1";
      if(result.search("/") !== -1){
        let firstNum = result.split("/", 2)[0]
        let secondNum = result.split("/", 2)[1]
@@ -24,6 +27,9 @@ function ConvertHandler() {
   };
   
   this.getUnit = function(input) {
+    if(!input){
+      return 'invalid unit'
+    }
     input = input.match(/[a-zA-Z]+/g)
     input = input ? input[0] : 'invalid unit';
     var units = ['gal','l','mi','km','lbs','kg','GAL','L','MI','KM','LBS','KG'];
